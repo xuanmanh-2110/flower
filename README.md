@@ -489,7 +489,7 @@ php artisan view:clear
 
 ### Sơ đồ Database (ERD)
 
-```mermaid
+<!-- ```mermaid
 erDiagram
     USERS ||--o{ ORDERS : "đặt hàng"
     USERS ||--o{ REVIEWS : "viết đánh giá"
@@ -621,7 +621,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-```
+``` -->
 
 #### Quy trình hệ thống (Sequence Diagrams)
 
