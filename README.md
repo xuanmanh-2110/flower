@@ -157,11 +157,11 @@ php artisan key:generate
 ### 5. Cấu hình database trong file `.env`
 ```env
 DB_CONNECTION=mysql
-DB_HOST=mysql-manh-laravelapp.h.aivencloud.com
-DB_PORT=25185
-DB_DATABASE=defaultdb
-DB_USERNAME=avnadmin
-DB_PASSWORD=..........
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=flowershop
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
 ```
 
 ### 6. Chạy migration và seeder
