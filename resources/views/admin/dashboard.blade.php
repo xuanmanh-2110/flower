@@ -511,7 +511,7 @@
     </div>
 
     <!-- Modal xác nhận xóa sản phẩm -->
-    <div id="confirm-modal" class="fixed inset-0 flex items-center justify-center hidden z-50">
+    <div id="confirm-modal" class="fixed inset-0 items-center justify-center hidden z-50">
         <div class="bg-white p-6 border rounded-lg shadow-xl w-96">
             <div class="text-center">
                 <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-rose-100 mb-4">
@@ -535,7 +535,7 @@
 
 
     <!-- Modal xác nhận đơn hàng -->
-    <div id="confirm-order-modal" class="fixed inset-0 flex items-center justify-center hidden z-50">
+    <div id="confirm-order-modal" class="fixed inset-0 items-center justify-center hidden z-50">
         <div class="bg-white p-6 border rounded-lg shadow-xl w-96">
             <div class="text-center">
                 <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
@@ -558,7 +558,7 @@
     </div>
 
     <!-- Modal xác nhận xóa đơn hàng -->
-    <div id="confirm-delete-order-modal" class="fixed inset-0 flex items-center justify-center hidden z-50">
+    <div id="confirm-delete-order-modal" class="fixed inset-0 hidden items-center justify-center z-50">
         <div class="bg-white p-6 border rounded-lg shadow-xl w-96">
             <div class="text-center">
                 <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-rose-100 mb-4">
@@ -698,7 +698,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 currentOrderForm = this.closest('form');
                 currentOrderAction = 'confirm';
-                document.getElementById('confirm-order-modal').classList.remove('hidden');
+                const confirmOrderModal = document.getElementById('confirm-order-modal');
+                confirmOrderModal.classList.remove('hidden');
+                confirmOrderModal.classList.add('flex');
             });
         });
         
@@ -726,16 +728,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial attachment of order event listeners
     attachOrderEventListeners();
     
-    // Confirm order modal handlers
-    document.getElementById('confirm-order-cancel').addEventListener('click', function() {
-        document.getElementById('confirm-order-modal').classList.add('hidden');
+        const confirmOrderModal = document.getElementById('confirm-order-modal');
+        confirmOrderModal.classList.add('hidden');
+        confirmOrderModal.classList.remove('flex');
         currentOrderForm = null;
         currentOrderAction = null;
-    });
-    
-    document.getElementById('confirm-order-action').addEventListener('click', function() {
-        document.getElementById('confirm-order-modal').classList.add('hidden');
+        currentOrderForm = null;
+        const confirmOrderModal = document.getElementById('confirm-order-modal');
+        confirmOrderModal.classList.add('hidden');
+        confirmOrderModal.classList.remove('flex');
         if (currentOrderForm && currentOrderAction === 'confirm') {
+            currentOrderForm.submit();
+        }
+        currentOrderForm = null;
+        currentOrderAction = null;
             currentOrderForm.submit();
         }
         currentOrderForm = null;
