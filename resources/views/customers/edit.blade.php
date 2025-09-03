@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="container mx-auto p-6">
+    <!-- Nút quay lại -->
+    <button onclick="history.back()" class="mb-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md shadow-md transition-colors duration-200">
+        ← Quay về trang trước
+    </button>
+    
     <h2 class="text-3xl font-bold text-rose-600 mb-6 text-center">Sửa khách hàng</h2>
 
     @if ($errors->any())

@@ -7,6 +7,14 @@
         <div class="hidden lg:flex lg:items-center lg:w-auto flex-grow" id="navbarNav">
             <ul class="flex flex-col lg:flex-row lg:ml-auto items-center">
                 @auth
+                @if(Auth::user()->is_admin)
+                <li class="lg:ml-4">
+                    <a href="{{ route('admin.dashboard') }}" class="text-purple-600 hover:text-purple-800 px-3 py-2 flex items-center">
+                        <span class="mr-1">⚙️</span>
+                        <span class="text-sm font-bold">Quản Lý</span>
+                    </a>
+                </li>
+                @endif
                 <li class="lg:ml-4">
                     <a href="{{ route('profile.show') }}" class="text-gray-700 hover:text-gray-900 px-3 py-2 flex items-center">
                         <span class="mr-1">👤</span>

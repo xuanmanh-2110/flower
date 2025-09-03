@@ -33,6 +33,14 @@ class Product extends Model
    }
 
    /**
+    * Quan hệ với OrderItem để thống kê bán hàng
+    */
+   public function orderItems()
+   {
+       return $this->hasMany(\App\Models\OrderItem::class);
+   }
+
+   /**
     * Get the total number of reviews for the product.
     */
    public function reviewsCount()
@@ -40,3 +48,4 @@ class Product extends Model
        return $this->reviews()->count();
    }
 }
+

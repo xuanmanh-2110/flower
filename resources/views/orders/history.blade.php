@@ -68,6 +68,8 @@
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Đang xử lý</span>
                         @elseif($order->status == 'shipped')
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Đã giao</span>
+                        @elseif($order->status == 'delivered')
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-lime-100 text-lime-800">Đã nhận</span>
                         @elseif($order->status == 'cancelled')
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Đã hủy</span>
                         @else
@@ -75,7 +77,41 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="{{ route('orders.show', $order->id) }}" class="text-rose-500 hover:text-rose-600">Xem chi tiết</a>
+                        @if($order->status == 'processing')
+                            <form action="{{ route('orders.confirmDelivery', $order->id) }}" method="POST" class="inline" id="confirm-delivery-form-{{ $order->id }}">
+                                @csrf
+                                @method('PATCH')
+                                <button type="button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded transition-colors duration-200"
+                                    onclick="document.getElementById('confirm-delivery-modal-{{ $order->id }}').classList.remove('hidden')">
+                                    Nhận hàng
+                                </button>
+                            </form>
+                            <!-- Modal xác nhận nhận hàng -->
+                            <div id="confirm-delivery-modal-{{ $order->id }}" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+                                <div class="bg-white rounded-lg shadow-xl border border-gray-200 w-full max-w-sm p-0">
+                                    <div class="flex items-center px-5 py-4 border-b border-gray-100">
+                                        <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-lg font-semibold text-gray-800">Xác nhận nhận hàng</span>
+                                    </div>
+                                    <div class="px-5 py-4">
+                                        <p class="mb-4 text-gray-700 text-center">Bạn chắc chắn đã nhận được đơn hàng <span class="font-bold">#{{ $order->id }}</span>?</p>
+                                        <div class="flex justify-center gap-2">
+                                            <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-4 rounded"
+                                                onclick="document.getElementById('confirm-delivery-modal-{{ $order->id }}').classList.add('hidden')">
+                                                Hủy
+                                            </button>
+                                            <button type="button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded"
+                                                onclick="document.getElementById('confirm-delivery-form-{{ $order->id }}').submit()">
+                                                Xác nhận
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        <a href="{{ route('orders.show', $order->id) }}" class="text-rose-500 hover:text-rose-600 ml-2">Xem chi tiết</a>
                     </td>
                 </tr>
                 @endforeach

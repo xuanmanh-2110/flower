@@ -144,6 +144,29 @@ public function history(Request $request)
         return redirect()->route('orders.show', $order->id)->with('error', 'Đơn hàng đã được xử lý hoặc giao, không thể hủy.');
     }
 
+    /**
+     * Xác nhận nhận hàng bởi khách hàng
+     */
+    public function confirmDelivery(Order $order)
+    {
+        // Kiểm tra xem đơn hàng có thuộc về khách hàng hiện tại không
+        $user = auth()->user();
+        $customer = Customer::where('email', $user->email)->first();
+        
+        if (!$customer || $order->customer_id !== $customer->id) {
+            abort(403, 'Bạn không có quyền truy cập đơn hàng này.');
+        }
+
+        // Chỉ cho phép xác nhận nhận hàng khi đơn hàng ở trạng thái 'processing'
+        if ($order->status !== 'processing') {
+            return redirect()->back()->with('error', 'Chỉ có thể xác nhận nhận hàng khi đơn hàng đang được xử lý.');
+        }
+
+        // Cập nhật trạng thái đơn hàng thành 'delivered'
+        $order->update(['status' => 'delivered']);
+
+        return redirect()->back()->with('success', 'Đã xác nhận nhận hàng thành công!');
+    }
 
     /**
      * Xóa đơn hàng

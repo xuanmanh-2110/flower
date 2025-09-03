@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto p-6">
-    <a href="{{ url('/') }}" class="inline-block bg-rose-100 hover:bg-rose-200 text-rose-600 font-bold py-2 px-4 rounded-md shadow-md transition-colors duration-200 mb-4">&larr; Quay về trang chính</a>
+    <button onclick="history.back()" class="inline-block bg-rose-100 hover:bg-rose-200 text-rose-600 font-bold py-2 px-4 rounded-md shadow-md transition-colors duration-200 mb-4">&larr; Quay về trang trước</button>
     <h2 class="text-3xl font-bold text-rose-600 mb-6 text-center">Sửa sản phẩm</h2>
     <form method="POST" action="{{ route('products.update', $product) }}" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
         @csrf @method('PUT')

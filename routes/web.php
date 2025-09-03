@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 
 use App\Models\Product;
 Route::get('/', function () {
@@ -53,6 +54,7 @@ Route::get('customers/{customer}/orders', [CustomerController::class, 'orders'])
     Route::middleware('auth')->get('/orders/history', [App\Http\Controllers\OrderController::class, 'history'])->name('orders.history');
 
 Route::resource('orders', OrderController::class);
+Route::patch('orders/{order}/confirm-delivery', [OrderController::class, 'confirmDelivery'])->name('orders.confirmDelivery');
 
 // Cart routes
 use App\Http\Controllers\CartController;
@@ -83,4 +85,12 @@ Route::middleware('auth')->post('/orders/{order}/update-status', [App\Http\Contr
 
 // Lịch sử mua hàng cho khách hàng
 Route::middleware('auth')->get('/orders/history', [App\Http\Controllers\OrderController::class, 'history'])->name('orders.history');
+
+// Admin dashboard và các chức năng quản lý
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::post('/admin/orders/{order}/update-status', [AdminController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
+    Route::delete('/admin/orders/{order}', [AdminController::class, 'destroyOrder'])->name('admin.destroyOrder');
+    Route::delete('/admin/products/{product}', [AdminController::class, 'destroyProduct'])->name('admin.destroyProduct');
+});
 

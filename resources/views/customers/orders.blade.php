@@ -18,6 +18,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Tổng tiền</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Trạng thái</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Ngày đặt</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Hành động</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200 text-gray-800">
@@ -27,18 +28,37 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ number_format($order->total_amount) }} đ</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($order->status === 'pending')
-                                    Đang chờ xử lý
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Đang chờ xử lý</span>
                                 @elseif($order->status === 'processing')
-                                    Đang xử lý
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Đang xử lý</span>
                                 @elseif($order->status === 'shipped')
-                                    Đã giao hàng
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">Đã giao hàng</span>
+                                @elseif($order->status === 'delivered')
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Đã nhận hàng</span>
                                 @elseif($order->status === 'cancelled')
-                                    Đã hủy
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Đã hủy</span>
                                 @else
-                                    {{ $order->status }}
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">{{ $order->status }}</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if($order->status === 'processing')
+                                    <form action="{{ route('orders.confirmDelivery', $order) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit"
+                                                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded text-sm transition-colors duration-200"
+                                                onclick="return confirm('Xác nhận bạn đã nhận được hàng?')">
+                                            ✓ Nhận hàng
+                                        </button>
+                                    </form>
+                                @elseif($order->status === 'delivered')
+                                    <span class="text-green-600 font-semibold text-sm">✓ Đã hoàn thành</span>
+                                @else
+                                    <span class="text-gray-400 text-sm">-</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

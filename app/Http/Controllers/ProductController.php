@@ -61,7 +61,7 @@ class ProductController extends Controller
 
         Product::create($data);
 
-        return redirect()->route('products.index')->with('success', 'Thêm sản phẩm thành công!');
+        return redirect('/admin?section=products')->with('success', 'Thêm sản phẩm thành công!');
     }
 
     /**

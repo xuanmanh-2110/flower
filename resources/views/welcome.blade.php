@@ -6,16 +6,9 @@
                   @auth
                     @if(auth()->user()->is_admin)
                       <div class="flex items-center">
-                        <div class="relative">
-                            <button id="manage-button" class="border-none px-4 py-2 font-bold text-gray-800 hover:text-red-600 whitespace-normal md:whitespace-nowrap">
-                                Quản lý
-                            </button>
-                            <div id="manage-dropdown" class="hidden absolute top-[110%] left-0 bg-white border-none rounded-xl shadow-lg min-w-[200px] z-50">
-                                <a class="block px-5 py-3 border-b-0 bg-white hover:bg-red-100 hover:text-red-700" href="{{ route('products.index') }}">Quản lý sản phẩm</a>
-                                <a class="block px-5 py-3 border-b-0 bg-white hover:bg-red-100 hover:text-red-700" href="{{ route('orders.index') }}">Quản lý đơn hàng</a>
-                                <a class="block px-5 py-3 bg-white hover:bg-red-100 hover:text-red-700" href="{{ route('customers.index') }}">Quản lý khách hàng</a>
-                            </div>
-                        </div>
+                        <a href="{{ route('admin.dashboard') }}" class="border-none px-4 py-2 font-bold text-gray-800 hover:text-purple-800 whitespace-normal md:whitespace-nowrap flex items-center">
+                            <span>Quản lý</span>
+                        </a>
                       </div>
                     @endif
                   @endauth
@@ -236,39 +229,6 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Manage dropdown
-    const manageButton = document.getElementById('manage-button');
-    const manageDropdown = document.getElementById('manage-dropdown');
-    const manageContainer = manageButton ? manageButton.closest('.relative') : null;
-
-    if (manageContainer && manageDropdown) {
-      let timeoutId;
-
-      manageContainer.addEventListener('mouseenter', function() {
-        clearTimeout(timeoutId);
-        manageDropdown.classList.remove('hidden');
-        manageDropdown.classList.add('block');
-      });
-
-      manageContainer.addEventListener('mouseleave', function() {
-        timeoutId = setTimeout(function() {
-          manageDropdown.classList.add('hidden');
-          manageDropdown.classList.remove('block');
-        }, 300);
-      });
-
-      manageDropdown.addEventListener('mouseenter', function() {
-        clearTimeout(timeoutId);
-      });
-
-      manageDropdown.addEventListener('mouseleave', function() {
-        timeoutId = setTimeout(function() {
-          manageDropdown.classList.add('hidden');
-          manageDropdown.classList.remove('block');
-        }, 300);
-      });
-    }
-
     // Infinite scrolling carousel with scale effects
     const carouselContainer = document.getElementById('carousel-container');
     const carouselItems = document.querySelectorAll('.carousel-item');

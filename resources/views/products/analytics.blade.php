@@ -8,7 +8,7 @@
             <p class="text-gray-600 mt-2">Phân tích chi tiết về hiệu suất và đánh giá sản phẩm</p>
         </div>
         <div class="flex space-x-3">
-            <a href="{{ route('products.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ url('/admin?section=products') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
                 ← Quay lại danh sách
             </a>
             <a href="{{ route('products.show', $product->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
