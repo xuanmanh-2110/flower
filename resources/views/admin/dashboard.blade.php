@@ -118,7 +118,7 @@
         <!-- Main content -->
         <div class="flex-1">
             <!-- Products Section -->
-            <div id="products-section" class="section-content hidden">
+            <div id="products-section" class="admin-section" style="display:none">
                 <div class="bg-white rounded-lg shadow p-6">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-xl font-semibold text-gray-800 flex items-center space-x-2">
@@ -221,7 +221,7 @@
             </div>
 
             <!-- Customers Section -->
-            <div id="customers-section" class="section-content hidden">
+            <div id="customers-section" class="admin-section" style="display:none">
                 <div class="bg-white rounded-lg shadow p-6">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-xl font-semibold text-gray-800 flex items-center space-x-2">
@@ -301,7 +301,7 @@
             </div>
 
             <!-- Orders Section -->
-            <div id="orders-section" class="section-content">
+            <div id="orders-section" class="admin-section" style="display:none">
                 <div class="bg-white rounded-lg shadow p-6">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-xl font-semibold text-gray-800 flex items-center space-x-2">
@@ -362,7 +362,7 @@
             </div>
 
             <!-- Statistics Section -->
-            <div id="statistics-section" class="section-content hidden">
+            <div id="statistics-section" class="admin-section" style="display:none">
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-xl font-semibold text-gray-800 mb-6 flex items-center space-x-2">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
