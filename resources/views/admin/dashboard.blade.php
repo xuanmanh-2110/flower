@@ -196,10 +196,10 @@
                                                 </svg>
                                                 <span>Sửa</span>
                                             </a>
-                                            <form method="POST" action="{{ route('admin.destroyProduct', $product) }}" class="inline delete-form">
+                                            <form method="POST" action="{{ route('admin.destroyProduct', $product) }}" class="inline delete-form" data-product-id="{{ $product->id }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="text-red-600 hover:text-red-900 delete-btn inline-flex items-center space-x-1">
+                                                <button type="button" class="text-red-600 hover:text-red-900 delete-btn inline-flex items-center space-x-1" data-product-id="{{ $product->id }}">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                                     </svg>
@@ -218,6 +218,63 @@
                         {{ $products->links() }}
                     </div>
                 </div>
+
+                <!-- Modal xác nhận xóa sản phẩm -->
+                <x-confirm-modal id="deleteProductModal"
+                    title="Xác nhận xóa sản phẩm"
+                    confirmText="Xóa"
+                    confirmClass="bg-rose-500 hover:bg-rose-600 text-white"
+                    :cancelId="'deleteProductCancel'"
+                    :confirmId="'deleteProductConfirm'"
+                >
+                    <span>Bạn có chắc chắn muốn xóa sản phẩm này? Hành động này không thể hoàn tác.</span>
+                </x-confirm-modal>
+
+                <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    let targetForm = null;
+                    const modal = document.getElementById('deleteProductModal');
+                    // Xóa mọi class hiển thị modal khi load trang
+                    if (modal) {
+                        modal.classList.remove('flex');
+                        modal.classList.add('hidden');
+                    }
+
+                    document.querySelectorAll('.delete-btn').forEach(function(btn) {
+                        btn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            targetForm = btn.closest('form');
+                            if (modal) {
+                                modal.classList.remove('hidden');
+                                modal.classList.add('flex');
+                            }
+                        });
+                    });
+
+                    // Xử lý nút xác nhận trong modal
+                    const confirmBtn = document.getElementById('deleteProductConfirm');
+                    if (confirmBtn) {
+                        confirmBtn.addEventListener('click', function() {
+                            if (modal) {
+                                modal.classList.remove('flex');
+                                modal.classList.add('hidden');
+                            }
+                            if (targetForm) targetForm.submit();
+                        });
+                    }
+
+                    // Xử lý nút đóng modal
+                    const cancelBtn = document.getElementById('deleteProductCancel');
+                    if (cancelBtn) {
+                        cancelBtn.addEventListener('click', function() {
+                            if (modal) {
+                                modal.classList.remove('flex');
+                                modal.classList.add('hidden');
+                            }
+                        });
+                    }
+                });
+                </script>
             </div>
 
             <!-- Customers Section -->
@@ -511,27 +568,7 @@
     </div>
 
     <!-- Modal xác nhận xóa sản phẩm -->
-    <div id="confirm-modal" class="fixed inset-0 items-center justify-center hidden z-50">
-        <div class="bg-white p-6 border rounded-lg shadow-xl w-96">
-            <div class="text-center">
-                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-rose-100 mb-4">
-                    <svg class="h-6 w-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-2">Xác nhận xóa</h3>
-                <p class="text-sm text-gray-500 mb-6">Bạn có chắc chắn muốn xóa sản phẩm này? Hành động này không thể hoàn tác.</p>
-                <div class="flex justify-center gap-4">
-                    <button id="confirm-cancel" class="px-4 py-2 bg-gray-300 text-gray-800 text-base font-medium rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                        Hủy
-                    </button>
-                    <button id="confirm-delete" class="px-4 py-2 bg-rose-600 text-white text-base font-medium rounded-md hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500">
-                        Xóa
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Đã xóa modal thừa, chỉ giữ lại modal ở phía trên --}}
 
 
     <!-- Modal xác nhận đơn hàng -->
@@ -778,3 +815,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
+
+<!-- <script>
+{{-- Đã xóa đoạn xác nhận xóa sản phẩm bằng confirm popup, chỉ dùng modal xác nhận --}}
+        });
+    });
+});
+</script> -->

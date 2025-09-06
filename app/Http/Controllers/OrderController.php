@@ -177,4 +177,14 @@ public function history(Request $request)
         $order->delete();
         return redirect()->route('orders.index')->with('success', 'Đã xóa đơn hàng thành công!');
     }
+    // Chuẩn resource: cập nhật trạng thái đơn hàng
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,processing,shipped,delivered,cancelled'
+        ]);
+        $order = Order::findOrFail($id);
+        $order->update(['status' => $request->status]);
+        return redirect()->back()->with('success', 'Đã cập nhật trạng thái đơn hàng.');
+    }
 }

@@ -64,73 +64,44 @@
     </div>
 </div>
 
-<!-- Modal xác nhận xóa sản phẩm -->
-<div id="confirm-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 hidden">
-    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 border border-gray-200">
-        <div class="p-6">
-            <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-rose-100 rounded-full">
-                <svg class="w-8 h-8 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                </svg>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 text-center mb-2">Xác nhận xóa sản phẩm</h3>
-            <p class="text-gray-600 text-center mb-6">Bạn có chắc chắn muốn xóa sản phẩm này? Hành động này không thể hoàn tác.</p>
-            <div class="flex space-x-3">
-                <button id="confirm-cancel" class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors duration-200">
-                    Hủy
-                </button>
-                <button id="confirm-delete" class="flex-1 px-4 py-2 bg-rose-600 text-white font-semibold rounded-lg hover:bg-rose-700 transition-colors duration-200">
-                    Xóa
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+{{-- Modal xác nhận xóa sản phẩm dùng chung --}}
+@include('components.confirm-modal', [
+    'id' => 'confirm-modal',
+    'title' => 'Xác nhận xóa sản phẩm',
+    'description' => 'Bạn có chắc chắn muốn xóa sản phẩm này? Hành động này không thể hoàn tác.',
+    'cancelId' => 'confirm-cancel',
+    'confirmId' => 'confirm-delete',
+    'cancelText' => 'Hủy',
+    'confirmText' => 'Xóa',
+    'icon' => '<svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>',
+    'iconBg' => 'bg-red-100'
+])
 
-@endsection
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.delete-product-btn');
-        let currentForm = null;
-        
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function (event) {
-                event.preventDefault();
-                currentForm = this.closest('form');
-                showConfirmModal();
-            });
-        });
-        
-        function showConfirmModal() {
-            const modal = document.getElementById('confirm-modal');
-            const confirmBtn = document.getElementById('confirm-delete');
-            const cancelBtn = document.getElementById('confirm-cancel');
-            
-            // Hiển thị modal
+document.addEventListener('DOMContentLoaded', function() {
+    let currentForm = null;
+    const modal = document.getElementById('confirm-modal');
+    const cancelBtn = document.getElementById('confirm-cancel');
+    const confirmBtn = document.getElementById('confirm-delete');
+
+    document.querySelectorAll('.delete-product-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            currentForm = btn.closest('form');
             modal.classList.remove('hidden');
-            
-            // Xử lý khi nhấn Hủy
-            const handleCancel = () => {
-                modal.classList.add('hidden');
-                currentForm = null;
-                confirmBtn.removeEventListener('click', handleConfirm);
-                cancelBtn.removeEventListener('click', handleCancel);
-            };
-            
-            // Xử lý khi nhấn Xóa
-            const handleConfirm = () => {
-                modal.classList.add('hidden');
-                if (currentForm) {
-                    currentForm.submit();
-                }
-                confirmBtn.removeEventListener('click', handleConfirm);
-                cancelBtn.removeEventListener('click', handleCancel);
-            };
-            
-            // Thêm event listeners
-            confirmBtn.addEventListener('click', handleConfirm);
-            cancelBtn.addEventListener('click', handleCancel);
-        }
+        });
     });
+
+    cancelBtn.addEventListener('click', function() {
+        modal.classList.add('hidden');
+        currentForm = null;
+    });
+
+    confirmBtn.addEventListener('click', function() {
+        if (currentForm) currentForm.submit();
+        modal.classList.add('hidden');
+        currentForm = null;
+    });
+});
 </script>
