@@ -126,60 +126,6 @@ Dự án "FlowerShop" là một ứng dụng web thương mại điện tử chu
 
 ## 📝 Sơ đồ Use Case
 
-```mermaid
-flowchart LR
-  %% Flower Shop System (no boundary box)
-
-  %% Actors
-  Customer["👤<br/>Customer"]:::actor
-  Admin["👤<br/>Admin"]:::actor
-
-  %% Use cases (rectangles)
-  UC1["Sign Up"]:::usecase
-  UC2["Sign In"]:::usecase
-  UC3["Browse<br/>Products"]:::usecase
-  UC4["View Product<br/>Details"]:::usecase
-  UC5["Manage Cart"]:::usecase
-  UC6["Place Order"]:::usecase
-  UC7["View Order<br/>History"]:::usecase
-  UC8["Review Products"]:::usecase
-  UC9["Update Profile"]:::usecase
-  UC10["Manage Products"]:::usecase
-  UC11["Manage Orders"]:::usecase
-  UC12["Manage Customers"]:::usecase
-  UC13["View Revenue<br/>Reports"]:::usecase
-
-  %% Links
-  Customer --- UC1
-  Customer --- UC2
-  Customer --- UC3
-  Customer --- UC4
-  Customer --- UC5
-  Customer --- UC6
-  Customer --- UC7
-  Customer --- UC8
-  Customer --- UC9
-
-  Admin --- UC2
-  Admin --- UC10
-  Admin --- UC11
-  Admin --- UC12
-  Admin --- UC13
-
-  %% Include/Extend (dotted edges + labels)
-  UC6 -. "<<include>>" .-> UC2
-  UC7 -. "<<include>>" .-> UC2
-  UC8 -. "<<include>>" .-> UC2
-  UC9 -. "<<include>>" .-> UC2
-  UC5 -. "<<include>>" .-> UC2
-  UC4 -. "<<extend>>" .-> UC5
-
-  %% Styles
-  classDef actor fill:#e1f5fe,stroke:#01579b,stroke-width:3px,color:#000,rx:12,ry:12
-  classDef usecase fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000,rx:0,ry:0
-
-```
-
 ## � Hướng dẫn cài đặt
 
 ### 1. Clone dự án
