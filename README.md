@@ -128,29 +128,28 @@ Dự án "FlowerShop" là một ứng dụng web thương mại điện tử chu
 
 ```mermaid
 flowchart LR
+  %% Flower Shop System (no boundary box)
+
   %% Actors
-  Customer["👤<br/>Khách hàng"]:::actor
+  Customer["👤<br/>Customer"]:::actor
   Admin["👤<br/>Admin"]:::actor
 
-  %% Hệ thống (boundary)
-  subgraph System["Hệ thống bán hoa"]
-    direction LR
-    UC1(("Đăng ký tài khoản")):::usecase
-    UC2(("Đăng nhập")):::usecase
-    UC3(("Xem danh sách<br/>sản phẩm")):::usecase
-    UC4(("Xem chi tiết<br/>sản phẩm")):::usecase
-    UC5(("Quản lý giỏ hàng")):::usecase
-    UC6(("Đặt hàng")):::usecase
-    UC7(("Xem lịch sử<br/>đơn hàng")):::usecase
-    UC8(("Đánh giá sản phẩm")):::usecase
-    UC9(("Cập nhật hồ sơ")):::usecase
-    UC10(("Quản lý sản phẩm")):::usecase
-    UC11(("Quản lý đơn hàng")):::usecase
-    UC12(("Quản lý khách hàng")):::usecase
-    UC13(("Xem báo cáo doanh thu")):::usecase
-  end
+  %% Use cases (rectangles)
+  UC1["Sign Up"]:::usecase
+  UC2["Sign In"]:::usecase
+  UC3["Browse<br/>Products"]:::usecase
+  UC4["View Product<br/>Details"]:::usecase
+  UC5["Manage Cart"]:::usecase
+  UC6["Place Order"]:::usecase
+  UC7["View Order<br/>History"]:::usecase
+  UC8["Review Products"]:::usecase
+  UC9["Update Profile"]:::usecase
+  UC10["Manage Products"]:::usecase
+  UC11["Manage Orders"]:::usecase
+  UC12["Manage Customers"]:::usecase
+  UC13["View Revenue<br/>Reports"]:::usecase
 
-  %% Liên kết
+  %% Links
   Customer --- UC1
   Customer --- UC2
   Customer --- UC3
@@ -167,7 +166,7 @@ flowchart LR
   Admin --- UC12
   Admin --- UC13
 
-  %% Include/Extend
+  %% Include/Extend (dotted edges + labels)
   UC6 -. "<<include>>" .-> UC2
   UC7 -. "<<include>>" .-> UC2
   UC8 -. "<<include>>" .-> UC2
@@ -177,8 +176,7 @@ flowchart LR
 
   %% Styles
   classDef actor fill:#e1f5fe,stroke:#01579b,stroke-width:3px,color:#000,rx:12,ry:12
-  classDef usecase fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000,rx:28,ry:28
-  style System fill:#e8f5e8,stroke:#2e7d32,stroke-width:3px,stroke-dasharray:6 4
+  classDef usecase fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000,rx:0,ry:0
 
 ```
 
