@@ -127,48 +127,59 @@ Dự án "FlowerShop" là một ứng dụng web thương mại điện tử chu
 ## 📝 Sơ đồ Use Case
 
 ```mermaid
-flowershop LR
-    UC1["Đăng ký tài khoản"] ~~~ UC2["Đăng nhập"]
-    UC3["Xem danh sách sản phẩm"] ~~~ UC4["Xem chi tiết sản phẩm"]
-    UC5["Quản lý giỏ hàng"] ~~~ UC6["Đặt hàng"]
-    UC7["Xem lịch sử đơn hàng"] ~~~ UC8["Đánh giá sản phẩm"]
-    UC8 ~~~ UC9["Cập nhật hồ sơ"]
-    UC10["Quản lý sản phẩm"] ~~~ UC11["Quản lý đơn hàng"]
-    UC12["Quản lý khách hàng"] ~~~ UC13["Xem báo cáo doanh thu"]
+flowchart LR
+  %% Actors
+  Customer["👤<br/>Khách hàng"]:::actor
+  Admin["👤<br/>Admin"]:::actor
 
-    Customer["👤<br>Khách hàng"] --- UC1 & UC2 & UC3 & UC4 & UC5 & UC6 & UC7 & UC8 & UC9
-    Admin["👤<br>Admin"] --- UC2 & UC10 & UC11 & UC12 & UC13
+  %% Hệ thống (boundary)
+  subgraph System["Hệ thống bán hoa"]
+    direction LR
+    UC1(("Đăng ký tài khoản")):::usecase
+    UC2(("Đăng nhập")):::usecase
+    UC3(("Xem danh sách<br/>sản phẩm")):::usecase
+    UC4(("Xem chi tiết<br/>sản phẩm")):::usecase
+    UC5(("Quản lý giỏ hàng")):::usecase
+    UC6(("Đặt hàng")):::usecase
+    UC7(("Xem lịch sử<br/>đơn hàng")):::usecase
+    UC8(("Đánh giá sản phẩm")):::usecase
+    UC9(("Cập nhật hồ sơ")):::usecase
+    UC10(("Quản lý sản phẩm")):::usecase
+    UC11(("Quản lý đơn hàng")):::usecase
+    UC12(("Quản lý khách hàng")):::usecase
+    UC13(("Xem báo cáo doanh thu")):::usecase
+  end
 
-    UC6 -.->|"<<include>>"| UC2
-    UC7 -.->|"<<include>>"| UC2
-    UC8 -.->|"<<include>>"| UC2
-    UC9 -.->|"<<include>>"| UC2
-    UC5 -.->|"<<include>>"| UC2
-    UC4 -.->|"<<extend>>"| UC5
+  %% Liên kết
+  Customer --- UC1
+  Customer --- UC2
+  Customer --- UC3
+  Customer --- UC4
+  Customer --- UC5
+  Customer --- UC6
+  Customer --- UC7
+  Customer --- UC8
+  Customer --- UC9
 
-    UC_SEP[" "]
-    
-    classDef actor fill:#e1f5fe,stroke:#01579b,stroke-width:3px,color:#000
-    classDef usecase fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
-    classDef system fill:#e8f5e8,stroke:#2e7d32,stroke-width:3px
-    classDef separator fill:transparent,stroke:transparent,color:transparent
+  Admin --- UC2
+  Admin --- UC10
+  Admin --- UC11
+  Admin --- UC12
+  Admin --- UC13
 
-    Customer:::actor
-    UC1:::usecase
-    UC2:::usecase
-    UC3:::usecase
-    UC4:::usecase
-    UC5:::usecase
-    UC6:::usecase
-    UC7:::usecase
-    UC8:::usecase
-    UC9:::usecase
-    UC_SEP:::separator
-    UC10:::usecase
-    UC11:::usecase
-    UC12:::usecase
-    UC13:::usecase
-    Admin:::actor
+  %% Include/Extend
+  UC6 -. "<<include>>" .-> UC2
+  UC7 -. "<<include>>" .-> UC2
+  UC8 -. "<<include>>" .-> UC2
+  UC9 -. "<<include>>" .-> UC2
+  UC5 -. "<<include>>" .-> UC2
+  UC4 -. "<<extend>>" .-> UC5
+
+  %% Styles
+  classDef actor fill:#e1f5fe,stroke:#01579b,stroke-width:3px,color:#000,rx:12,ry:12
+  classDef usecase fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000,rx:28,ry:28
+  style System fill:#e8f5e8,stroke:#2e7d32,stroke-width:3px,stroke-dasharray:6 4
+
 ```
 
 ## � Hướng dẫn cài đặt
