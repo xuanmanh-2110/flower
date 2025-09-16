@@ -58,9 +58,6 @@ Dự án "FlowerShop" là một ứng dụng web thương mại điện tử chu
 - [Yêu cầu đã hoàn thành](#-yêu-cầu-đã-hoàn-thành)
 - [Ghi chú phát triển](#-ghi-chú-phát-triển)
 
-
-## ✨ Tính năng chính
-
 ### 👥 Dành cho Khách hàng:
 - **Xác thực người dùng**: Đăng ký, đăng nhập, đăng xuất
 - **Duyệt sản phẩm**: Xem danh sách hoa với hình ảnh và thông tin chi tiết
@@ -127,7 +124,54 @@ Dự án "FlowerShop" là một ứng dụng web thương mại điện tử chu
 - **MySQL**: >= 8.0 (hoặc PostgreSQL >= 13.0)
 - **Web Server**: Apache/Nginx
 
-## 🚀 Hướng dẫn cài đặt
+## 📝 Sơ đồ Use Case
+
+```mermaid
+flowershop LR
+    UC1["Đăng ký tài khoản"] ~~~ UC2["Đăng nhập"]
+    UC3["Xem danh sách sản phẩm"] ~~~ UC4["Xem chi tiết sản phẩm"]
+    UC5["Quản lý giỏ hàng"] ~~~ UC6["Đặt hàng"]
+    UC7["Xem lịch sử đơn hàng"] ~~~ UC8["Đánh giá sản phẩm"]
+    UC8 ~~~ UC9["Cập nhật hồ sơ"]
+    UC10["Quản lý sản phẩm"] ~~~ UC11["Quản lý đơn hàng"]
+    UC12["Quản lý khách hàng"] ~~~ UC13["Xem báo cáo doanh thu"]
+
+    Customer["👤<br>Khách hàng"] --- UC1 & UC2 & UC3 & UC4 & UC5 & UC6 & UC7 & UC8 & UC9
+    Admin["👤<br>Admin"] --- UC2 & UC10 & UC11 & UC12 & UC13
+
+    UC6 -.->|"<<include>>"| UC2
+    UC7 -.->|"<<include>>"| UC2
+    UC8 -.->|"<<include>>"| UC2
+    UC9 -.->|"<<include>>"| UC2
+    UC5 -.->|"<<include>>"| UC2
+    UC4 -.->|"<<extend>>"| UC5
+
+    UC_SEP[" "]
+    
+    classDef actor fill:#e1f5fe,stroke:#01579b,stroke-width:3px,color:#000
+    classDef usecase fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef system fill:#e8f5e8,stroke:#2e7d32,stroke-width:3px
+    classDef separator fill:transparent,stroke:transparent,color:transparent
+
+    Customer:::actor
+    UC1:::usecase
+    UC2:::usecase
+    UC3:::usecase
+    UC4:::usecase
+    UC5:::usecase
+    UC6:::usecase
+    UC7:::usecase
+    UC8:::usecase
+    UC9:::usecase
+    UC_SEP:::separator
+    UC10:::usecase
+    UC11:::usecase
+    UC12:::usecase
+    UC13:::usecase
+    Admin:::actor
+```
+
+## � Hướng dẫn cài đặt
 
 ### 1. Clone dự án
 ```bash
@@ -194,48 +238,72 @@ composer dev
 
 Ứng dụng sẽ chạy tại: `http://localhost:8000`
 
-## 📁 Cấu trúc dự án
+## 🗂️ Cấu trúc dự án
 
 ```
 flowershop/
 ├── app/
-│   ├── Http/Controllers/          # Controllers xử lý logic
-│   │   ├── AuthController.php     # Xác thực người dùng
-│   │   ├── CartController.php     # Quản lý giỏ hàng
-│   │   ├── CheckoutController.php # Xử lý thanh toán
-│   │   ├── CustomerController.php # Quản lý khách hàng
-│   │   ├── OrderController.php    # Quản lý đơn hàng
-│   │   ├── ProductController.php  # Quản lý sản phẩm
-│   │   └── ProfileController.php  # Quản lý hồ sơ
-│   └── Models/                    # Models dữ liệu
+│   ├── Http/
+│   │   └── Controllers/
+│   │       ├── AdminController.php         # Quản trị admin
+│   │       ├── AuthController.php          # Xác thực người dùng
+│   │       ├── CartController.php          # Quản lý giỏ hàng
+│   │       ├── CheckoutController.php      # Xử lý thanh toán
+│   │       ├── CustomerController.php      # Quản lý khách hàng
+│   │       ├── OrderController.php         # Quản lý đơn hàng
+│   │       ├── ProductController.php       # Quản lý sản phẩm
+│   │       └── ProfileController.php       # Quản lý hồ sơ
+│   └── Models/
 │       ├── Customer.php
 │       ├── Order.php
 │       ├── OrderItem.php
 │       ├── Product.php
 │       ├── Review.php
 │       └── User.php
+├── bootstrap/
+│   └── app.php
+├── config/
 ├── database/
-│   ├── migrations/                # Database migrations
-│   └── seeders/                   # Database seeders
+│   ├── migrations/
+│   └── seeders/
 ├── public/
 │   └── images/
-│       ├── products/              # Hình ảnh sản phẩm
-│       └── avatars/               # Avatar người dùng
+│       ├── products/                      # Hình ảnh sản phẩm
+│       └── avatars/                       # Avatar người dùng
 ├── resources/
-│   ├── css/                       # CSS files
-│   ├── js/                        # JavaScript files
-│   └── views/                     # Blade templates
-│       ├── auth/                  # Trang xác thực
-│       ├── cart/                  # Trang giỏ hàng
-│       ├── customers/             # Trang khách hàng
-│       ├── orders/                # Trang đơn hàng
-│       ├── products/              # Trang sản phẩm
-│       └── profile/               # Trang hồ sơ cá nhân
-└── routes/
-    └── web.php                    # Định tuyến web
+│   ├── css/
+│   ├── js/
+│   └── views/
+│       ├── admin/                         # Giao diện quản trị admin
+│       │   ├── dashboard.blade.php
+│       │   └── partials/
+│       │       └── orders-table.blade.php
+│       ├── auth/
+│       ├── cart/
+│       ├── components/
+│       ├── customers/
+│       ├── layouts/
+│       ├── orders/
+│       ├── products/
+│       ├── profile/
+│       ├── navbar.blade.php
+│       ├── welcome.blade.php
+│       └── checkout.blade.php
+├── routes/
+│   └── web.php
+├── tests/
+│   ├── Feature/
+│   │   └── ExampleTest.php
+│   └── Unit/
+│       └── ExampleTest.php
+├── artisan
+├── composer.json
+├── package.json
+├── .env.example
+├── phpunit.xml
+└── README.md
 ```
-
-## 🎯 Sử dụng
+## 🎯 Sử dụng 
 
 ### Đăng nhập Admin
 1. Chạy seeder để tạo tài khoản admin:
