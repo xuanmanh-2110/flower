@@ -21,7 +21,7 @@
         @csrf
         <div class="mb-4">
             <label for="name" class="block text-gray-700 text-sm font-medium mb-1">Tên:</label>
-            <input type="text" name="name" id="name" value="{{ old('name') }}" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring focus:ring-rose-200 focus:ring-opacity-50" required>
+            <input type="text" name="name" id="name" value="{{ old('name') }}" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring focus:ring-rose-200 focus:ring-opacity-50" required autocomplete="off">
         </div>
 
         <div class="mb-4">

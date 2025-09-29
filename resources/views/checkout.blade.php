@@ -14,7 +14,7 @@
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-medium mb-2">Địa chỉ giao hàng <span class="text-rose-500">*</span>:</label>
-            
+
             <!-- Chọn tỉnh/thành phố -->
             <div class="mb-3">
                 <label class="block text-gray-600 text-xs font-medium mb-1">Tỉnh/Thành phố:</label>
@@ -52,7 +52,7 @@
             <label class="block text-gray-700 text-sm font-medium mb-1">Số điện thoại <span class="text-rose-500">*</span>:</label>
             <input type="text" name="phone" value="{{ $userPhone ?? $lastOrder->phone ?? '' }}" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring focus:ring-rose-200 focus:ring-opacity-50" required>
         </div>
-        
+
         @if($userAddress || $userPhone)
         <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-md">
             <p class="text-sm text-green-700">
@@ -84,17 +84,17 @@
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $item['name'] }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $item['quantity'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ number_format($item['price'], 2) }}₫</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ number_format($item['price'] * $item['quantity'], 2) }}₫</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ number_format($item['price'], 0) }}₫</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ number_format($item['price'] * $item['quantity'], 0)}}₫</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
         <div class="text-right text-xl font-bold text-rose-600 mb-6">
-            <strong>Tổng cộng: {{ number_format($total, 2) }}₫</strong>
+            <strong>Tổng cộng: {{ number_format($total, 0) }}₫</strong>
         </div>
-        
+
         <!-- Phương thức thanh toán -->
         <div class="mb-6">
             <h4 class="text-lg font-semibold text-gray-800 mb-4">Phương thức thanh toán <span class="text-rose-500">*</span></h4>
@@ -112,38 +112,57 @@
                         </div>
                     </label>
                 </div>
-                
-                <!-- Chuyển khoản ngân hàng -->
-                <div class="border border-gray-300 rounded-lg p-4 hover:border-rose-300 transition-colors duration-200">
-                    <label class="flex items-start space-x-3 cursor-pointer">
-                        <input type="radio" name="payment_method" value="bank_transfer" class="mt-1 text-rose-500 focus:ring-rose-500" required>
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-2">
-                                <span class="text-2xl">🏦</span>
-                                <span class="font-medium text-gray-900">Chuyển khoản ngân hàng</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-1">Chuyển khoản trước khi giao hàng</p>
-                            <div id="bank-fields" class="mt-3 space-y-3 hidden">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Tên ngân hàng <span class="text-rose-500">*</span></label>
-                                    <input type="text" name="customer_bank_name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent" placeholder="Ví dụ: Vietcombank, BIDV, Techcombank...">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Số tài khoản <span class="text-rose-500">*</span></label>
-                                    <input type="text" name="customer_account_number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent" placeholder="Nhập số tài khoản của bạn">
-                                </div>
-                            </div>
-                        </div>
-                    </label>
-                </div>
+            </div>
+            <!-- MoMo payment option styled like COD -->
+            <div class="border border-gray-300 rounded-lg p-4 hover:border-rose-300 transition-colors duration-200 mt-4">
+                <button type="button"
+                        onclick="document.getElementById('momoForm').submit();"
+                        class="flex items-center space-x-3 cursor-pointer focus:outline-none">
+                    <img src="https://homepage.momocdn.net/fileuploads/svg/momo-file-240411162904.svg" alt="MoMo" class="w-8 h-8">
+                    <span class="ml-2 text-lg font-medium text-gray-900">Thanh toán qua MoMo</span>
+                </button>
             </div>
         </div>
-        
-        <button type="submit" class="w-full py-3 px-8 bg-rose-500 text-white border-none rounded-md text-lg cursor-pointer hover:bg-rose-600 transition-colors duration-200">Xác nhận đặt hàng</button>
-    </form>
+        <button type="submit"
+                id="cod-submit-btn"
+                style="display:none"
+                class="w-full mt-4 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-200 text-lg">
+            Xác nhận đặt hàng
+        </button>
+        </form>
+
+        <form id="momoForm" method="POST" action="{{ route('momo_payment') }}">
+            @csrf
+            <input type="hidden" name="total_momo" value="{{ $total }}">
+        </form>
+        {{-- <form action="{{ url('/momo_payment') }}" method="post" >
+            @csrf
+            <input type="hidden" name="total_momo" value="{{ $total }}">
+            <button type="submit" class="btn btn-default check_out" name="payUrl">Thanh
+                toán MOMO</button>
+        </form> --}}
 </div>
 
 <script>
+// Hiện/ẩn nút xác nhận đặt hàng theo phương thức thanh toán
+document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const codBtn = document.getElementById('cod-submit-btn');
+        if (this.value === 'cod') {
+            codBtn.style.display = 'block';
+        } else {
+            codBtn.style.display = 'none';
+        }
+    });
+});
+// Nếu reload lại trang mà radio COD đã được chọn thì hiện nút luôn
+window.addEventListener('DOMContentLoaded', function() {
+    const codRadio = document.querySelector('input[name="payment_method"][value="cod"]');
+    const codBtn = document.getElementById('cod-submit-btn');
+    if (codRadio && codRadio.checked) {
+        codBtn.style.display = 'block';
+    }
+});
 // API URL cho Vietnam Administrative Units
 const API_BASE_URL = 'https://provinces.open-api.vn/api';
 
@@ -165,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Hàm parse địa chỉ từ string
 function parseAddress(addressString) {
     if (!addressString) return null;
-    
+
     const parts = addressString.split(', ');
     if (parts.length >= 3) {
         return {
@@ -184,10 +203,10 @@ async function loadProvinces() {
         const response = await fetch(`${API_BASE_URL}/p/`);
         const data = await response.json();
         provincesData = data;
-        
+
         const citySelect = document.getElementById('city');
         citySelect.innerHTML = '<option value="">-- Chọn tỉnh/thành phố --</option>';
-        
+
         data.forEach(function(province) {
             const option = document.createElement('option');
             option.value = province.code;
@@ -195,7 +214,7 @@ async function loadProvinces() {
             option.setAttribute('data-name', province.name);
             citySelect.appendChild(option);
         });
-        
+
         // Load địa chỉ từ user profile hoặc đơn hàng gần nhất
         if (preferredAddress) {
             const parsedAddress = parseAddress(preferredAddress);
@@ -217,20 +236,20 @@ async function loadPreviousAddress(parsedAddress) {
     for (let option of citySelect.options) {
         if (option.getAttribute('data-name') === parsedAddress.city) {
             option.selected = true;
-            
+
             // Load quận/huyện
             await loadDistricts(option.value);
-            
+
             // Tìm và chọn quận/huyện
             setTimeout(async () => {
                 const districtSelect = document.getElementById('district');
                 for (let districtOption of districtSelect.options) {
                     if (districtOption.getAttribute('data-name') === parsedAddress.district) {
                         districtOption.selected = true;
-                        
+
                         // Load xã/phường
                         await loadWards(districtOption.value);
-                        
+
                         // Tìm và chọn xã/phường
                         setTimeout(() => {
                             const wardSelect = document.getElementById('ward');
@@ -240,7 +259,7 @@ async function loadPreviousAddress(parsedAddress) {
                                     break;
                                 }
                             }
-                            
+
                             // Fill địa chỉ chi tiết
                             document.getElementById('street').value = parsedAddress.street;
                             updateFullAddress();
@@ -260,10 +279,10 @@ async function loadDistricts(provinceCode) {
         const response = await fetch(`${API_BASE_URL}/p/${provinceCode}?depth=2`);
         const data = await response.json();
         districtsData = data.districts || [];
-        
+
         const districtSelect = document.getElementById('district');
         districtSelect.innerHTML = '<option value="">-- Chọn quận/huyện --</option>';
-        
+
         data.districts.forEach(function(district) {
             const option = document.createElement('option');
             option.value = district.code;
@@ -285,10 +304,10 @@ async function loadWards(districtCode) {
         const response = await fetch(`${API_BASE_URL}/d/${districtCode}?depth=2`);
         const data = await response.json();
         wardsData = data.wards || [];
-        
+
         const wardSelect = document.getElementById('ward');
         wardSelect.innerHTML = '<option value="">-- Chọn xã/phường --</option>';
-        
+
         data.wards.forEach(function(ward) {
             const option = document.createElement('option');
             option.value = ward.code;
@@ -371,10 +390,10 @@ function loadFallbackProvinces() {
         {code: '26', name: 'Vĩnh Phúc'},
         {code: '15', name: 'Yên Bái'}
     ];
-    
+
     const citySelect = document.getElementById('city');
     citySelect.innerHTML = '<option value="">-- Chọn tỉnh/thành phố --</option>';
-    
+
     provinces.forEach(function(province) {
         const option = document.createElement('option');
         option.value = province.code;
@@ -389,16 +408,16 @@ document.getElementById('city').addEventListener('change', function() {
     const provinceCode = this.value;
     const districtSelect = document.getElementById('district');
     const wardSelect = document.getElementById('ward');
-    
+
     // Clear quận/huyện và xã/phường
     districtSelect.innerHTML = '<option value="">-- Chọn quận/huyện --</option>';
     wardSelect.innerHTML = '<option value="">-- Chọn xã/phường --</option>';
-    
+
     if (provinceCode) {
         districtSelect.innerHTML = '<option value="">-- Đang tải... --</option>';
         loadDistricts(provinceCode);
     }
-    
+
     updateFullAddress();
 });
 
@@ -406,15 +425,15 @@ document.getElementById('city').addEventListener('change', function() {
 document.getElementById('district').addEventListener('change', function() {
     const districtCode = this.value;
     const wardSelect = document.getElementById('ward');
-    
+
     // Clear xã/phường
     wardSelect.innerHTML = '<option value="">-- Chọn xã/phường --</option>';
-    
+
     if (districtCode) {
         wardSelect.innerHTML = '<option value="">-- Đang tải... --</option>';
         loadWards(districtCode);
     }
-    
+
     updateFullAddress();
 });
 
@@ -430,11 +449,11 @@ function updateFullAddress() {
     const wardSelect = document.getElementById('ward');
     const districtSelect = document.getElementById('district');
     const citySelect = document.getElementById('city');
-    
+
     const wardName = wardSelect.options[wardSelect.selectedIndex]?.getAttribute('data-name') || '';
     const districtName = districtSelect.options[districtSelect.selectedIndex]?.getAttribute('data-name') || '';
     const cityName = citySelect.options[citySelect.selectedIndex]?.getAttribute('data-name') || '';
-    
+
     let fullAddress = '';
     if (street) {
         fullAddress += street;
@@ -448,7 +467,7 @@ function updateFullAddress() {
     if (cityName) {
         fullAddress += (fullAddress ? ', ' : '') + cityName;
     }
-    
+
     document.getElementById('full_address').value = fullAddress;
 }
 
@@ -458,10 +477,10 @@ document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
         const bankFields = document.getElementById('bank-fields');
         const bankNameField = document.querySelector('input[name="customer_bank_name"]');
         const accountNumberField = document.querySelector('input[name="customer_account_number"]');
-        
+
         if (this.value === 'bank_transfer') {
             bankFields.classList.remove('hidden');
-            
+
             // Thêm required cho các trường ngân hàng
             bankNameField.required = true;
             accountNumberField.required = true;
@@ -484,43 +503,43 @@ document.querySelector('form').addEventListener('submit', function(e) {
     const street = document.getElementById('street').value.trim();
     const phone = document.querySelector('input[name="phone"]').value.trim();
     const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
-    
+
     if (!city || !district || !ward || !street) {
         e.preventDefault();
         alert('Vui lòng nhập đầy đủ thông tin địa chỉ (tỉnh/thành phố, quận/huyện, xã/phường, số nhà/đường)!');
         return false;
     }
-    
+
     if (!phone) {
         e.preventDefault();
         alert('Vui lòng nhập số điện thoại!');
         return false;
     }
-    
+
     if (!paymentMethod) {
         e.preventDefault();
         alert('Vui lòng chọn phương thức thanh toán!');
         return false;
     }
-    
+
     // Kiểm tra thông tin ngân hàng nếu chọn chuyển khoản
     if (paymentMethod.value === 'bank_transfer') {
         const bankName = document.querySelector('input[name="customer_bank_name"]').value.trim();
         const accountNumber = document.querySelector('input[name="customer_account_number"]').value.trim();
-        
+
         if (!bankName) {
             e.preventDefault();
             alert('Vui lòng nhập tên ngân hàng!');
             return false;
         }
-        
+
         if (!accountNumber) {
             e.preventDefault();
             alert('Vui lòng nhập số tài khoản!');
             return false;
         }
     }
-    
+
     updateFullAddress(); // Đảm bảo địa chỉ đầy đủ được cập nhật
 });
 </script>

@@ -56,6 +56,7 @@ class Order extends Model
             'cancelled' => 'bg-red-100 text-red-800'
         ];
         return $colors[$this->status] ?? 'bg-gray-100 text-gray-800';
+
     }
 
     public function customer()
