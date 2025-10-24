@@ -134,6 +134,12 @@
         <form id="momoForm" method="POST" action="{{ route('momo_payment') }}">
             @csrf
             <input type="hidden" name="total_momo" value="{{ $total }}">
+            <input type="hidden" name="is_buy_now" value="{{ $isBuyNow ? '1' : '0' }}">
+            @foreach($cart as $id => $item)
+                <input type="hidden" name="cart[{{ $id }}][name]" value="{{ $item['name'] }}">
+                <input type="hidden" name="cart[{{ $id }}][quantity]" value="{{ $item['quantity'] }}">
+                <input type="hidden" name="cart[{{ $id }}][price]" value="{{ $item['price'] }}">
+            @endforeach
         </form>
         {{-- <form action="{{ url('/momo_payment') }}" method="post" >
             @csrf

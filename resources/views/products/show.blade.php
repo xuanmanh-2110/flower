@@ -18,9 +18,9 @@
                 <img src="https://via.placeholder.com/430x430?text=No+Image" alt="No Image" class="w-[430px] h-[430px] object-cover rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
             @endif
         </div>
-        <div class="p-6 md:w-1/2 flex flex-col justify-between">
-            <div class="mt-10">
-                <h1 class="text-4xl font-extrabold text-gray-900 mb-3">{{ $product->name }}</h1>
+        <div class="p-6 md:w-1/2 flex flex-col">
+            <div class="flex-grow">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-3 mt-10">{{ $product->name }}</h1>
                 @if($isLatestProduct)
                 <div class="mb-6">
                     <span class="text-xl text-gray-500 line-through mr-3">{{ number_format($product->price, 0, ',', '.') }} VND</span>
@@ -56,13 +56,15 @@
                     <span class="text-gray-500">Chưa có đánh giá</span>
                 </div>
                 @endif
-                <div class="prose prose-lg text-gray-700 mb-8 leading-relaxed">
+                <div class="prose prose-lg text-gray-700 mb-6 leading-relaxed max-h-32 overflow-y-auto">
                     {!! nl2br(e($product->description)) !!}
                 </div>
             </div>
             
-            <!-- Chọn số lượng -->
-            <div class="flex items-center justify-start mb-0 mt-20">
+            <!-- Form số lượng và mua hàng - luôn ở cuối -->
+            <div class="mt-auto pt-4 border-t border-gray-100">
+                <!-- Chọn số lượng -->
+                <div class="flex items-center justify-start mb-4">
                 <label for="quantity" class="text-lg font-semibold text-gray-700 mr-4">Số lượng:</label>
                 <div class="flex items-center border border-gray-300 rounded-lg">
                     <button type="button" id="decrease-qty" class="px-3 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-l-lg">
@@ -73,9 +75,9 @@
                         <span class="text-xl">+</span>
                     </button>
                 </div>
-            </div>
-            
-            <div class="flex flex-col sm:flex-row gap-4">
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
                 <form action="{{ route('cart.add', $product->id) }}" method="POST" class="w-full sm:w-auto add-to-cart-form">
                     @csrf
                     <input type="hidden" name="quantity" id="cart-quantity" value="1">
@@ -86,6 +88,7 @@
                     <input type="hidden" name="quantity" id="buy-quantity" value="1">
                     <button type="submit" class="w-full px-8 py-4 bg-gray-200 text-gray-800 font-semibold rounded-lg text-lg shadow-md hover:bg-gray-300 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Mua ngay</button>
                 </form>
+                </div>
             </div>
         </div>
     </div>

@@ -183,19 +183,63 @@ class CheckoutController extends Controller
     }
     public function momo_payment(Request $request)
     {
+        // Kiểm tra nếu đây là "Mua ngay"
+        $isBuyNow = $request->input('is_buy_now', false);
+        
+        // Lấy cart từ request hoặc session
+        $cart = $request->input('cart', []);
+        if (empty($cart)) {
+            if ($isBuyNow) {
+                $cart = session()->get('buy_now_cart', []);
+            } else {
+                $cart = session()->get('cart', []);
+            }
+        }
+
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
+        }
+
+        // Tạo hoặc lấy customer
+        $user = \Auth::user();
+        $customer = \App\Models\Customer::firstOrCreate(
+            ['email' => $user->email],
+            ['name' => $user->name]
+        );
 
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
         $order = Order::create([
-        'customer_id' => auth()->id() ?? null,
-        'total_amount' => (int) $request->input('total_momo'),
-        'status' => 'pending',
+            'customer_id' => $customer->id,
+            'total_amount' => (int) $request->input('total_momo'),
+            'status' => 'pending',
+            'payment_method' => 'momo',
         ]);
+
+        // Tạo OrderItem từ cart
+        $total = 0;
+        foreach ($cart as $id => $item) {
+            $product = Product::findOrFail($id);
+            $qty = $item['quantity'];
+            $price = $item['price']; // Sử dụng giá từ cart
+            $total += $price * $qty;
+
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $id,
+                'quantity' => $qty,
+                'price' => $price,
+            ]);
+        }
+
+        // Cập nhật lại tổng tiền của order
+        $order->update(['total_amount' => $total]);
+
         $partnerCode = "MOMOBKUN20180529";
         $accessKey = "klm05TvNBzhg7h7j";
         $secretKey = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa";
 
         $orderInfo = "Thanh toán qua MoMo";
-        $amount = (int) $request->input('total_momo');
+        $amount = (int) $total;
         $orderId = $order->id . "_" . time();
         $redirectUrl = "http://127.0.0.1:8000/checkout";
         $ipnUrl = "http://127.0.0.1:8000/momo/ipn";
@@ -203,7 +247,6 @@ class CheckoutController extends Controller
 
         $requestId = time() . "";
         $requestType = "captureWallet";
-
 
         $rawHash = "accessKey=" . $accessKey .
         "&amount=" . $amount .
@@ -219,30 +262,37 @@ class CheckoutController extends Controller
         $signature = hash_hmac("sha256", $rawHash, $secretKey);
 
         $data = [
-        'partnerCode' => $partnerCode,
-        'partnerName' => "MoMoTest",
-        'storeId' => "MomoTestStore",
-        'requestId' => $requestId,
-        'amount' => $amount,
-        'orderId' => $orderId,
-        'orderInfo' => $orderInfo,
-        'redirectUrl' => $redirectUrl,
-        'ipnUrl' => $ipnUrl,
-        'lang' => 'vi',
-        'extraData' => $extraData,
-        'requestType' => $requestType,
-        'signature' => $signature
+            'partnerCode' => $partnerCode,
+            'partnerName' => "MoMoTest",
+            'storeId' => "MomoTestStore",
+            'requestId' => $requestId,
+            'amount' => $amount,
+            'orderId' => $orderId,
+            'orderInfo' => $orderInfo,
+            'redirectUrl' => $redirectUrl,
+            'ipnUrl' => $ipnUrl,
+            'lang' => 'vi',
+            'extraData' => $extraData,
+            'requestType' => $requestType,
+            'signature' => $signature
         ];
 
         $result = $this->execPostRequest($endpoint, json_encode($data));
         $jsonResult = json_decode($result, true);
 
         if (!$jsonResult) {
-            dd("Raw response MoMo:", $result); // in ra để soi
+            dd("Raw response MoMo:", $result);
         }
 
         if (!isset($jsonResult['payUrl'])) {
             dd("MoMo trả về lỗi:", $jsonResult);
+        }
+
+        // Xóa session cart tương ứng sau khi tạo đơn hàng thành công
+        if ($isBuyNow) {
+            session()->forget('buy_now_cart');
+        } else {
+            session()->forget('cart');
         }
 
         return redirect()->to($jsonResult['payUrl']);

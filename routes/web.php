@@ -90,7 +90,7 @@ Route::middleware('auth')->post('/orders/{order}/update-status', [App\Http\Contr
 Route::middleware('auth')->get('/orders/history', [App\Http\Controllers\OrderController::class, 'history'])->name('orders.history');
 
 
-Route::post('momo_payment', [App\Http\Controllers\CheckoutController::class, 'momo_payment'])->name('momo_payment');
+Route::middleware('auth')->post('momo_payment', [App\Http\Controllers\CheckoutController::class, 'momo_payment'])->name('momo_payment');
 Route::post('/momo/ipn', [CheckoutController::class, 'momoIpn']);
 
 // Admin dashboard và các chức năng quản lý
