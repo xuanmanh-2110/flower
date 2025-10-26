@@ -60,7 +60,7 @@
       <h1 class="text-[clamp(24px,5vw,36px)] mb-2.5">Thay lời trái tim muốn nói.</h1>
       <button id="order-now-btn" class="px-5 py-2.5 border-none bg-rose-500 text-white cursor-pointer rounded-md text-[clamp(16px,2.5vw,18px)] font-semibold shadow-md shadow-rose-200 transition-all duration-200 ease-in-out outline-none active:scale-96 active:shadow-sm hover:bg-rose-600 hover:shadow-lg hover:scale-104">Đặt hoa ngay</button>
     </div>
-    
+
     <div id="hero-slideshow" class="relative z-10 w-full md:max-w-[400px] h-auto aspect-square">
       @for($i = 0; $i < 5; $i++)
         @php
@@ -155,7 +155,7 @@
         <p class="mb-6 text-lg">Sản phẩm mới nhất - Giảm giá xả kho lên đến 20%</p>
         <p class="text-gray-600 mb-6">Đừng bỏ lỡ cơ hội sở hữu sản phẩm mới nhất với mức giá ưu đãi nhất!</p>
       </div>
-      
+
       <!-- Carousel sản phẩm bên phải -->
       <div class="flex-1 max-w-4xl">
         <div class="relative overflow-hidden" style="width: 100%; height: 400px;">
@@ -174,9 +174,9 @@
                   <img src="{{ $product->image ? asset('images/products/' . $product->image) : 'https://via.placeholder.com/200x200' }}"
                        alt="{{ $product->name }}"
                        class="w-[200px] h-[200px] object-cover rounded-md border border-gray-300 mb-3 mx-auto transition-transform duration-1000 ease-in-out">
-                  
+
                   <h3 class="text-base font-semibold mb-2 text-rose-600 min-h-[3rem] flex items-center justify-center leading-tight transition-all duration-1000 ease-in-out">{{ $product->name }}</h3>
-                  
+
                   <div class="mb-3 transition-all duration-1000 ease-in-out">
                     <span class="text-sm text-gray-500 line-through mr-2">{{ number_format($product->price, 0, ',', '.') }} VND</span>
                     <br>
@@ -190,7 +190,7 @@
             @endforeach
           </div>
         </div>
-        
+
         <!-- Indicators -->
         <div class="flex justify-center mt-12 space-x-4">
           @foreach($latestProducts as $index => $product)
@@ -203,28 +203,152 @@
     </div>
   </section>
   @endif
-      <footer class="bg-gray-200 px-4 py-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 text-[clamp(12px,2.5vw,14px)]">
-        <div class="min-w-full sm:min-w-[150px]">
-          <h4>Tài khoản</h4>
-          <p>Yên Nghĩa, Hà Đông, TP. Hà Nội</p>
-        </div>
-        <div class="min-w-full sm:min-w-[150px]">
-          <h4>Danh mục</h4>
-          <p>Shopify, Magento, Opencart</p>
-        </div>
-        <div class="min-w-full sm:min-w-[150px]">
-          <h4>Thông tin</h4>
-          <p>Về chúng tôi, Liên hệ, Giao hàng</p>
-        </div>
-        <div class="min-w-full sm:min-w-[150px]">
-          <h4>Liên kết nhanh</h4>
-          <p>Tra cứu đơn hàng, Hướng dẫn mua</p>
-        </div>
-      </footer>
+       <footer class="bg-gray-100 px-6 py-10 mt-10 text-gray-700 border-t border-gray-300">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 
-      <div class="bg-rose-500 text-white text-center py-2.5 text-[clamp(10px,2vw,12px)]">
-        © 2025 Thiết kế bởi XManh - Shop Hoa Tươi
-      </div>
+        <!-- Logo & Giới thiệu -->
+        <div>
+            <h2 class="text-2xl font-bold text-rose-600 mb-3">🌸 FlowerShop Hà Đông</h2>
+            <p class="text-sm leading-relaxed">
+                FlowerShop Hà Đông chuyên cung cấp hoa tươi, hoa bó, hoa chúc mừng và dịch vụ giao hoa tận nơi.
+                Chúng tôi cam kết hoa tươi 100%, phục vụ nhanh chóng và tận tâm.
+            </p>
+        </div>
+
+        <!-- Hỗ trợ -->
+        <div>
+            <h4 class="font-bold text-lg mb-3">Hỗ trợ khách hàng</h4>
+            <ul class="space-y-2">
+                <li>
+                    <span class="font-semibold">Tư vấn dịch vụ:</span>
+                    <a href="tel:18006750" class="text-blue-600 hover:text-blue-800">1800 6750</a>
+                </li>
+                <li>
+                    <span class="font-semibold">Hỗ trợ đơn hàng:</span>
+                    <a href="tel:19006750" class="text-blue-600 hover:text-blue-800">1900 6750</a>
+                </li>
+                <li>
+                    <span class="font-semibold">Email:</span>
+                    <a href="mailto:support@flowerstore.vn" class="text-blue-600 hover:text-blue-800">support@flowerstore.vn</a>
+                </li>
+                <li class="italic text-gray-600">Hỗ trợ từ 7h00 – 22h00, tất cả các ngày trong tuần</li>
+            </ul>
+        </div>
+
+        <!-- Thông tin & Liên hệ -->
+        <div>
+            <h4 class="font-bold text-lg mb-3">Thông tin & Liên hệ</h4>
+            <ul class="space-y-2">
+                <li>
+                    <a href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Phenikaa/@20.9626112,105.7461115,1041m/data=!3m2!1e3!4b1!4m6!3m5!1s0x313452efff394ce3:0x391a39d4325be464!8m2!3d20.9626112!4d105.7486864!16s%2Fg%2F1220whsz?entry=ttu&g_ep=EgoyMDI1MTAyMi4wIKXMDSoASAFQAw%3D%3D"
+                       target="_blank"
+                       class="flex items-center text-blue-600 hover:text-blue-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM12 11.5
+                            c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5
+                            2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        Gần Trường Đại học Phenikaa, Yên Nghĩa, Hà Đông, Hà Nội
+                    </a>
+                </li>
+                <li>
+                    <span class="font-semibold">Hotline:</span>
+                    <a href="tel:0965123456" class="text-blue-600 hover:text-blue-800">0935 XXX XXX</a>
+                </li>
+                <li>
+                    <span class="font-semibold">Email:</span>
+                    <a href="mailto:flowershop.hadong@gmail.com" class="text-blue-600 hover:text-blue-800">flowershop.hadong@gmail.com</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- KẾT NỐI VỚI CHÚNG TÔI -->
+<div class="min-w-full sm:min-w-[150px]">
+    <h4 class="font-bold text-lg mb-3">Kết nối với chúng tôi</h4>
+    <p class="text-sm text-gray-600 mb-3">
+        Theo dõi chúng tôi trên mạng xã hội để nhận thông tin ưu đãi và cập nhật mẫu hoa mới nhất!
+    </p>
+
+    <div class="flex space-x-4">
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/share/g/19gntsFrbn/"
+           target="_blank"
+           class="w-10 h-10 flex items-center justify-center bg-blue-600 rounded-full text-white shadow-md hover:bg-blue-700 transition transform hover:scale-110"
+           title="Theo dõi Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                <path d="M22.675 0h-21.35C.597 0 0 .597 0 1.325v21.351C0 23.403.597 24 1.325
+                24h11.49v-9.294H9.691V11.29h3.124V8.413c0-3.1 1.891-4.789 4.658-4.789
+                1.325 0 2.462.099 2.792.143v3.24l-1.917.001c-1.503 0-1.792.715-1.792
+                1.763v2.312h3.584l-.466 3.416h-3.118V24h6.114C23.403 24 24
+                23.403 24 22.676V1.325C24 .597 23.403 0 22.675 0z"/>
+            </svg>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/flowerbythawmiu_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+           target="_blank"
+           class="w-10 h-10 flex items-center justify-center bg-pink-500 rounded-full text-white shadow-md hover:bg-pink-600 transition transform hover:scale-110"
+           title="Theo dõi Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.33
+                3.608 1.305.975.975 1.243 2.242 1.305 3.608.058 1.266.07
+                1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.33
+                2.633-1.305 3.608-.975.975-2.242 1.243-3.608
+                1.305-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.33-3.608-1.305-.975-.975-1.243-2.242-1.305-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.33-2.633
+                1.305-3.608.975-.975 2.242-1.243 3.608-1.305C8.416
+                2.175 8.796 2.163 12 2.163zm0 1.838c-3.16 0-3.507.012-4.737.07-1.186.054-1.828.24-2.254.405-.569.221-.975.485-1.405.915s-.694.836-.915
+                1.405c-.165.426-.351 1.068-.405
+                2.254-.058 1.23-.07 1.577-.07 4.737s.012 3.507.07
+                4.737c.054 1.186.24 1.828.405
+                2.254.221.569.485.975.915
+                1.405s.836.694 1.405.915c.426.165 1.068.351
+                2.254.405 1.23.058 1.577.07
+                4.737.07s3.507-.012 4.737-.07c1.186-.054
+                1.828-.24 2.254-.405.569-.221.975-.485
+                1.405-.915s.694-.836.915-1.405c.165-.426.351-1.068.405-2.254.058-1.23.07-1.577.07-4.737s-.012-3.507-.07-4.737c-.054-1.186-.24-1.828-.405-2.254-.221-.569-.485-.975-.915-1.405s-.836-.694-1.405-.915c-.426-.165-1.068-.351-2.254-.405-1.23-.058-1.577-.07-4.737-.07zm0
+                3.905a5.935 5.935 0 110 11.87 5.935 5.935 0 010-11.87zm0
+                1.838a4.097 4.097 0 100 8.194 4.097 4.097 0 000-8.194zm6.406-3.437a1.44 1.44 0 110 2.88 1.44 1.44 0 010-2.88z"/>
+            </svg>
+        </a>
+
+        <!-- TikTok -->
+        <a href="https://www.tiktok.com/@byh.floral/video/7539062285877136648?is_from_webapp=1&sender_device=pc&web_id=7547573063563544071"
+           target="_blank"
+           class="w-10 h-10 flex items-center justify-center bg-black rounded-full text-white shadow-md hover:bg-gray-800 transition transform hover:scale-110"
+           title="Theo dõi TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                <path d="M12 2c5.523 0 10 4.477 10
+                10s-4.477 10-10 10S2 17.523 2
+                12 6.477 2 12 2zm1.715 5.514v7.228a3.27 3.27 0 11-1.74-2.872v-1.78a5.06
+                5.06 0 102.542 4.392V9.887a5.32 5.32 0 003.256
+                1.132V8.973c-.543-.021-1.092-.115-1.609-.288a3.64
+                3.64 0 01-2.45-3.171z"/>
+            </svg>
+        </a>
+
+        <!-- Zalo -->
+        <a href="https://zalo.me/"
+           target="_blank"
+           class="w-10 h-10 flex items-center justify-center bg-cyan-500 rounded-full text-white shadow-md hover:bg-cyan-600 transition transform hover:scale-110"
+           title="Kết nối Zalo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                <path d="M12 2C6.477 2 2 6.306 2 11.5c0 3.087
+                1.505 5.872 3.875 7.725L4.8 22l3.67-1.983c1.112.3
+                2.314.465 3.53.465 5.523 0 10-4.306 10-9.5S17.523
+                2 12 2z"/>
+            </svg>
+        </a>
+    </div>
+</div>
+
+
+
+    <!-- Bản quyền -->
+    <div class="border-t border-gray-300 mt-8 pt-4 text-center text-sm text-gray-600">
+                                 © 2025 FlowerShop Hà Đông
+    </div>
+</footer>
+
 @endsection
 
 <script>
@@ -236,33 +360,33 @@
     const totalItems = {{ $latestProducts->count() }};
     let currentIndex = totalItems; // Start from middle set
     let isTransitioning = false;
-    
+
     if (carouselContainer && carouselItems.length > 0) {
       // Set initial position (centered)
       const containerWidth = carouselContainer.parentElement.offsetWidth;
       const itemOffset = (containerWidth / 2) - (260 / 2);
       const initialTranslateX = -(currentIndex * 280) + itemOffset;
       carouselContainer.style.transform = `translateX(${initialTranslateX}px)`;
-      
+
       function updateCarousel(smooth = true) {
         if (smooth) {
           carouselContainer.style.transition = 'transform 1000ms ease-in-out';
         } else {
           carouselContainer.style.transition = 'none';
         }
-        
+
         // Center the current item (offset by half container width minus half item width)
         const containerWidth = carouselContainer.parentElement.offsetWidth;
         const itemOffset = (containerWidth / 2) - (260 / 2); // 260px is item width
         const translateX = -(currentIndex * 280) + itemOffset;
         carouselContainer.style.transform = `translateX(${translateX}px)`;
-        
+
         // Update scale effects for all items
         carouselItems.forEach((item, index) => {
           const card = item.querySelector('div');
           const title = card.querySelector('h3');
           const price = card.querySelector('div:last-child');
-          
+
           if (index === currentIndex) {
             // Center item - active (scale up but not too much)
             card.style.transform = 'scale(1.05)';
@@ -294,10 +418,10 @@
       function nextSlide() {
         if (isTransitioning) return;
         isTransitioning = true;
-        
+
         currentIndex++;
         updateCarousel();
-        
+
         setTimeout(() => {
           if (currentIndex >= totalItems * 2) {
             currentIndex = totalItems;
@@ -310,10 +434,10 @@
       function prevSlide() {
         if (isTransitioning) return;
         isTransitioning = true;
-        
+
         currentIndex--;
         updateCarousel();
-        
+
         setTimeout(() => {
           if (currentIndex <= 0) {
             currentIndex = totalItems;
